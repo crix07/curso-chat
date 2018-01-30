@@ -1,0 +1,42 @@
+<!DOCTYPE>
+<html>
+<head>
+	<title>this works</title>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+	<!-- <script src="bootstrap/js/bootstrap.min.js"></script> -->
+	<script src="jquery.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+	<h1 class="title">Chat NodeJS Course</h1>
+	<script type="text/javascript">
+		$(function(){
+			var socket = io.connect()
+			$('#chatform').submit(function(e){
+				e.preventDefault()
+				socket.emit('mensaje', $('#mensaje').val())
+				$('#mensaje').val('')
+			})
+
+			socket.on('publicar mensaje', (data)=>{
+				$('#chat').append('<div>'+data.mensaje+'</div>')
+			})
+		})
+	</script>
+	<div class="container">
+		<div class="col-md-3">
+			<h1>Mensajes</h1>
+		</div>
+		<div class="col-md-9">
+			<div class="row">
+				<div id="chat"></div>
+				<form id="chatform">
+					<textarea class="form-control" id="mensaje" rows="3"></textarea>
+					<button class="form-control btn btn-success" type="submit">Enviar!</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
